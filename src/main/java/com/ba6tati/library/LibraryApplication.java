@@ -8,6 +8,7 @@ public class LibraryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryApplication.class, args);
+		// http://localhost:8080/swagger-ui.html
 	}
 
 }
