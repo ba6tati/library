@@ -18,7 +18,6 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private Date birthDate;
 }
