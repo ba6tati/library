@@ -9,4 +9,4 @@ Java Spring Boot project.
 * ~~create book~~
 * ~~get book by id~~
 * search book by name/author
-* view all books
+* ~~view all books~~

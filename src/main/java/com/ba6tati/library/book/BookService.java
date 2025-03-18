@@ -1,13 +1,13 @@
 package com.ba6tati.library.book;
 
-import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ba6tati.library.author.Author;
 import com.ba6tati.library.author.AuthorRepository;
@@ -26,20 +26,29 @@ public class BookService {
         this.modelMapper = modelMapper;
     }
 
-    public Book createBook(BookDTO bookDTO) {
+    public ResponseEntity<?> createBook(BookDTO bookDTO) {
         Book book = modelMapper.map(bookDTO, Book.class);
+        UUID authorId = bookDTO.getAuthorId();
 
-        if (bookDTO.getAuthorId() != null) {
-            Author author = authorRepository.findById(bookDTO.getAuthorId()).orElse(null);
-            book.setAuthor(author);
+        if (authorId != null) {
+            Author author = authorRepository.findById(authorId).orElse(null);
+
+            if (author == null) {
+                return ResponseEntity.badRequest().body("Author with id " + authorId + " doesn't exist");
+            }
         }
+        bookRepository.save(book);
 
-        return bookRepository.save(book);
+        return ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
 
     public Book getBookById(UUID id) {
         Book book = bookRepository.findById(id).orElse(null);
 
         return book;
+    }
+
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 }
