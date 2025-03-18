@@ -6,7 +6,7 @@ Java Spring Boot project.
 * Frontend
 
 ### API Endpoints
-* create book
+* ~~create book~~
 * get book by id
 * search book by name/author
 * view all books
