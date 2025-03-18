@@ -7,6 +7,6 @@ Java Spring Boot project.
 
 ### API Endpoints
 * ~~create book~~
-* get book by id
+* ~~get book by id~~
 * search book by name/author
 * view all books
