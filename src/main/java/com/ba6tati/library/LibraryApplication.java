@@ -10,5 +10,16 @@ public class LibraryApplication {
 		SpringApplication.run(LibraryApplication.class, args);
 		// http://localhost:8080/swagger-ui.html
 	}
+	// TODO: add
+	/*
+		@ManyToOne
+		@JoinColumn(name = "author_id", nullable = false)
 
+		and use
+
+		Author author = authorRepository.findById(authorId)
+    		.orElseThrow(() -> new RuntimeException("Author not found"));
+
+		book.setAuthorId(author);
+	 */
 }
