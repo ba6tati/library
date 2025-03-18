@@ -1,8 +1,9 @@
 package com.ba6tati.library.book;
 
-import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ba6tati.library.author.Author;
@@ -29,5 +30,15 @@ public class BookService {
         }
 	
         return bookRepository.save(book);
+    }
+
+    public ResponseEntity<Book> getBookById(UUID id) {
+        Book book = bookRepository.findById(id).orElse(null);
+
+        if (book != null) {
+            return ResponseEntity.ok(book);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }
