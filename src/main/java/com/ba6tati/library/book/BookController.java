@@ -59,4 +59,13 @@ public class BookController {
 
         return ResponseEntity.ok(books);
     }
+
+    @GetMapping("/search/title={title}")
+    @Operation(summary = "Search book by title", description = "Returns list of all books matching the given title")
+    @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Book.class))))
+    public ResponseEntity<?> searchBookByTitle(@PathVariable String title) {
+        ResponseEntity<?> response = bookService.searchBookByTitle(title);
+
+        return response;
+    }
 }

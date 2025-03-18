@@ -51,4 +51,10 @@ public class BookService {
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
+    public ResponseEntity<?> searchBookByTitle(String title) {
+        List<Book> books = bookRepository.findByTitleContaining(title);
+        
+        return ResponseEntity.ok(books);
+    }
 }
