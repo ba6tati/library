@@ -34,7 +34,7 @@ public class BookService {
             Author author = authorRepository.findById(authorId).orElse(null);
 
             if (author == null) {
-                return ResponseEntity.badRequest().body("Author with id " + authorId + " doesn't exist");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Author with id " + authorId + " doesn't exist");
             }
         }
         bookRepository.save(book);
@@ -54,7 +54,17 @@ public class BookService {
 
     public ResponseEntity<?> searchBookByTitle(String title) {
         List<Book> books = bookRepository.findByTitleContaining(title);
-        
+
         return ResponseEntity.ok(books);
+    }
+
+    public ResponseEntity<?> getBooksByAuthor(UUID authorId) {
+        Author author = authorRepository.findById(authorId).orElse(null);
+
+        if (author == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Author with id " + authorId + " doesn't exist");
+        }
+
+        return ResponseEntity.ok(bookRepository.findByAuthor(author));
     }
 }

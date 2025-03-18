@@ -68,4 +68,13 @@ public class BookController {
 
         return response;
     }
+
+    @GetMapping("/by-author/{authorId}")
+    @Operation(summary = "Return all books by author", description = "Returns list of books written by specified author")
+    @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Book.class))))
+    public ResponseEntity<?> searchBookByTitle(@PathVariable UUID authorId) {
+        ResponseEntity<?> response = bookService.getBooksByAuthor(authorId);
+
+        return response;
+    }
 }

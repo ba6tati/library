@@ -9,5 +9,5 @@ Java Spring Boot project.
 * ~~create book~~
 * ~~get book by id~~
 * ~~search book by name~~
-* search book by author
+* ~~search book by author~~
 * ~~view all books~~

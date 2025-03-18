@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.ba6tati.library.author.Author;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,8 +22,13 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID) 
     private UUID id;
+
     private String title;
+
+    @Column(nullable = true)
     private String description;
+
+    @Column(nullable = true)
     private int releaseYear;
 
     @ManyToOne
