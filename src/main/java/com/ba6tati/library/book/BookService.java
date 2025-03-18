@@ -3,6 +3,7 @@ package com.ba6tati.library.book;
 import java.net.URI;
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,17 @@ public class BookService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    private final ModelMapper modelMapper;
+
+    public BookService(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     public Book createBook(BookDTO bookDTO) {
-        Book book = new Book();
-        book.setTitle(bookDTO.getTitle());
-        book.setDescription(bookDTO.getDescription());
-        book.setReleaseYear(bookDTO.getReleaseYear());
+        Book book = modelMapper.map(bookDTO, Book.class);
 
-        Author author = authorRepository.findById(bookDTO.getAuthorId()).orElse(null);
-
-        if (author != null) {
+        if (bookDTO.getAuthorId() != null) {
+            Author author = authorRepository.findById(bookDTO.getAuthorId()).orElse(null);
             book.setAuthor(author);
         }
 
