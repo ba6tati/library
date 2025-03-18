@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -25,18 +27,25 @@ public class BookController {
 
     @PostMapping
     @Operation(summary = "Creates a book", description = "Returns the book created")
-    @ApiResponse(responseCode = "200", description = "Successful operation")
-    public ResponseEntity<Book> createBook(@RequestBody BookDTO bookDTO) {
+    @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = Book.class)))
+    public ResponseEntity<?> createBook(@RequestBody BookDTO bookDTO) {
         Book book = bookService.createBook(bookDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(book);
+
+        // ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Gets a book", description = "Returns the book by id")
-    @ApiResponse(responseCode = "200", description = "Successful operation")
-    @ApiResponse(responseCode = "404", description = "Book with id not found")
-    public ResponseEntity<Book> getBookById(@PathVariable UUID id) {
-        ResponseEntity<Book> book = bookService.getBookById(id);
-        return book;
+    @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(schema = @Schema(implementation = Book.class)))
+    @ApiResponse(responseCode = "404", description = "Book with id not found", content = @Content(schema = @Schema(implementation = Void.class)))
+    public ResponseEntity<?> getBookById(@PathVariable UUID id) {
+        Book book = bookService.getBookById(id);
+
+        if (book == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found");
+        }
+
+        return ResponseEntity.ok(book);
     }
 }
